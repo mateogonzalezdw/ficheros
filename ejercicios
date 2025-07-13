@@ -1,0 +1,125 @@
+def ejercicio1():
+    try:
+        n = int(input("Ingrese un número entre 1 y 10: "))
+        
+        if 1 <= n <= 10:
+            nombre_archivo = f"tabla-{n}.txt"
+            
+            archivo = open(nombre_archivo, "w")
+            
+            for i in range(1, 11):
+                linea = f"{n} x {i} = {n * i}\n"
+                archivo.write(linea)
+            
+            archivo.close()
+            print(f"La tabla del {n} fue guardada en '{nombre_archivo}'")
+        
+        else:
+            print("El número debe estar entre 1 y 10")
+    
+    except ValueError:
+        print("Ingresá un número entero")
+
+#ejercicio1()
+
+def ejercicio2():
+    try:
+        n = int(input("Ingrese un número entre 1 y 10: "))
+        
+        if 1 <= n <= 10:
+            nombre_archivo = f"tabla-{n}.txt"
+            
+            with open(nombre_archivo, "r") as archivo:
+                contenido = archivo.read()
+                print(f"\n📄 Contenido de '{nombre_archivo}':\n")
+                print(contenido)
+        else:
+            print("El número debe estar entre 1 y 10")
+    
+    except FileNotFoundError:
+        print("El archivo no existe")
+    
+    except ValueError:
+        print("Ingresa un número entero")
+
+#ejercicio2()
+
+def ejercicio3():
+    try:
+        n = int(input("Número de la tabla (1-10): "))
+        m = int(input("Número de línea a mostrar (1-10): "))
+        
+        if 1 <= n <= 10 and 1 <= m <= 10:
+            nombre_archivo = f"tabla-{n}.txt"
+            with open(nombre_archivo, "r") as archivo:
+                lineas = archivo.readlines()
+                print(f"\n Línea {m}: {lineas[m-1].strip()}")
+        else:
+            print("Los números deben estar entre 1 y 10")
+    
+    except FileNotFoundError:
+        print(f"El archivo no existe")
+    
+    except ValueError:
+        print("Ingresa números enteros")
+
+#ejercicio3()
+
+def ejercicio4():
+    import urllib.request 
+    try:
+        url = input("Ingresá la URL del archivo de texto: ")
+        response = urllib.request.urlopen(url)
+        texto = response.read().decode("utf-8")
+        palabras = texto.split()
+        print(f"El archivo contiene {len(palabras)} palabras")
+    except Exception as e:
+        print(f"No se puedo acceder a la URL: {e}")
+
+#ejercicio4()
+
+
+
+def ejercicio5():
+    import urllib.request
+    import gzip
+    try:
+        url = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/sdg_08_10.tsv.gz&unzip=true"
+        response = urllib.request.urlopen(url)
+        contenido = gzip.decompress(response.read()).decode("utf-8")
+        
+        iniciales = input(" Ingresá las siglas del país: ")
+        encontrado = False
+
+        for linea in contenido.splitlines():
+            if linea.startswith(iniciales):
+                print(f"\n PIB de {iniciales}:\n{linea}")
+                encontrado = True
+                break
+
+        if not encontrado:
+            print(" País no encontraDO")
+    except Exception as e:
+        print(f" Error: {e}")
+
+#ejercicio5()
+
+
+def ejercicio61():
+    import csv
+    diccionario = {}
+    with open("cotizacion.cvs", newline='', encoding='utf-8') as csvfile:
+        lector = csv.DictReader(csvfile)
+        for campo in lector.fieldnames:
+            diccionario[campo] = []
+        for fila in lector:
+            for campo in lector.fieldnames:
+                valor = fila[campo]
+                if campo != 'Nombre':
+                    valor = valor.replace(',', '.')
+                    diccionario[campo].append(float(valor))
+                else:
+                    diccionario[campo].append(valor)
+    return diccionario
+
+ejercicio61()
