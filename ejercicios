@@ -31,7 +31,7 @@ def ejercicio2():
             
             with open(nombre_archivo, "r") as archivo:
                 contenido = archivo.read()
-                print(f"\n📄 Contenido de '{nombre_archivo}':\n")
+                print(f"\n Contenido de '{nombre_archivo}':\n")
                 print(contenido)
         else:
             print("El número debe estar entre 1 y 10")
@@ -122,4 +122,4 @@ def ejercicio61():
                     diccionario[campo].append(valor)
     return diccionario
 
-ejercicio61()
+#ejercicio61()
