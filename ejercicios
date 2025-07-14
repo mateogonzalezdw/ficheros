@@ -98,28 +98,50 @@ def ejercicio5():
                 break
 
         if not encontrado:
-            print(" País no encontraDO")
+            print(" País no encontrado")
     except Exception as e:
         print(f" Error: {e}")
 
 #ejercicio5()
 
 
-def ejercicio61():
+def ejercicio61(nombre_archivo):
     import csv
     diccionario = {}
-    with open("cotizacion.cvs", newline='', encoding='utf-8') as csvfile:
-        lector = csv.DictReader(csvfile)
+
+    with open(nombre_archivo, newline='', encoding='utf-8') as csvfile:
+        lector = csv.DictReader(csvfile, delimiter=';')
+
         for campo in lector.fieldnames:
             diccionario[campo] = []
+
         for fila in lector:
             for campo in lector.fieldnames:
                 valor = fila[campo]
                 if campo != 'Nombre':
-                    valor = valor.replace(',', '.')
+                    valor = valor.replace('.', '').replace(',', '.')
                     diccionario[campo].append(float(valor))
                 else:
                     diccionario[campo].append(valor)
+
     return diccionario
 
-#ejercicio61()
+#print(ejercicio61("cotizacion.csv"))
+
+def ejercicio62(diccionario):
+    import csv
+    from statistics import mean
+
+    with open('resumen_cotizaciones.csv', 'w', newline='', encoding='utf-8') as archivo:
+        escritor = csv.writer(archivo)
+        escritor.writerow(['Campo', 'Mínimo', 'Máximo', 'Media'])
+
+        for campo, valores in diccionario.items():
+            if campo != 'Nombre':
+                minimo = min(valores)
+                maximo = max(valores)
+                promedio = mean(valores)
+                escritor.writerow([campo, minimo, maximo, round(promedio, 2)])
+
+datos = ejercicio61('cotizacion.csv')
+#ejercicio62(datos)
